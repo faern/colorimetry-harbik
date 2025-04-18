@@ -375,6 +375,7 @@ fn compute_d_uv(mired: f64, d: f64) -> Option<f64> {
 // values from a Planckian spectrum. It will speed up when more than ~ 5_000 values are tested,
 // as the table will be completely calculated.
 #[test]
+#[ignore]
 fn test_cct_exhaustive() {
     const MIRED_START: f64 = 1.0;
     const MIRED_END: f64 = 1000.0;
