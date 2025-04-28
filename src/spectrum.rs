@@ -57,7 +57,7 @@ are available in this library, such as standard illuminants A and D65, Planckian
 display.
  */
 #[wasm_bindgen]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Spectrum(pub(crate) SVector<f64, NS>);
 
 impl Spectrum {
@@ -661,7 +661,7 @@ mod tests {
 
     #[test]
     fn index_test() {
-        let mut s = *Colorant::white().spectrum();
+        let mut s = Colorant::white().into_spectrum();
 
         // Set a spectral value
         s[500] = 0.5;
@@ -730,28 +730,29 @@ mod tests {
     #[test]
     fn add_spectra() {
         use approx::assert_ulps_eq;
-        let mut g1 = *Colorant::gray(0.5).spectrum();
-        let g2 = *Colorant::gray(0.5).spectrum();
+        let mut g1 = Colorant::gray(0.5).into_spectrum();
+        let g2 = Colorant::gray(0.5).into_spectrum();
         let g = g1.clone() + g2.clone();
         for i in 380..780 {
             assert_ulps_eq!(g[i], 1.0);
         }
 
-        g1 += &g2;
+        g1 += g2;
         for i in 380..780 {
             assert_ulps_eq!(g1[i], 1.0);
         }
 
-        let spectrum = *Colorant::gaussian(550.0, 50.0).spectrum();
-        let v = 2.0 * spectrum + -2.0 * spectrum;
+        let spectrum = Colorant::gaussian(550.0, 50.0).into_spectrum();
+        let v = 2.0 * &spectrum + -2.0 * &spectrum;
         for i in 380..780 {
             assert_ulps_eq!(v[i], 0.0);
         }
     }
+
     #[test]
     fn mul_spectra_test() {
         use approx::assert_ulps_eq;
-        let g = *Colorant::gray(0.5).spectrum();
+        let g = Colorant::gray(0.5).into_spectrum();
 
         let w = 2.0 * g.clone();
         for i in 380..780 {
@@ -810,7 +811,7 @@ mod tests {
 
     #[test]
     fn test_smooth() {
-        let mut s = *Colorant::default().spectrum();
+        let mut s = Colorant::default().into_spectrum();
         s[550] = 1.0;
         s.smooth(5.0);
 

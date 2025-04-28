@@ -167,7 +167,7 @@ impl ObserverData {
         // let xyzn = self.xyz_cie_table(illuminant, None);
         let xyzn = light.xyzn(self.tag, None);
         let xyz = if let Some(flt) = filter {
-            let s = *light.spectrum() * *flt.spectrum();
+            let s = light.spectrum().as_ref() * flt.spectrum().as_ref();
             self.xyz_from_spectrum(&s, Some(xyzn))
         } else {
             xyzn

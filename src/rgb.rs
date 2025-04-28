@@ -198,7 +198,9 @@ impl Light for RGB {
             .iter()
             .zip(yrgb.iter())
             .zip(prim.iter())
-            .fold(Spectrum::default(), |acc, ((&v, &w), s)| acc + v * w * s.0);
+            .fold(Spectrum::default(), |acc, ((&v, &w), s)| {
+                acc + v * w * s.spectrum().as_ref()
+            });
         Cow::Owned(s)
     }
 }
@@ -228,7 +230,9 @@ impl Filter for RGB {
             .iter()
             .zip(yrgb.iter())
             .zip(prim.iter())
-            .fold(Spectrum::default(), |acc, ((&v, &w), s)| acc + v * w * s.0);
+            .fold(Spectrum::default(), |acc, ((&v, &w), s)| {
+                acc + v * w * s.spectrum().as_ref()
+            });
         Cow::Owned(s)
     }
 }

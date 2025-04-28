@@ -119,6 +119,11 @@ impl Colorant {
         Self(Spectrum(data))
     }
 
+    /// Consumes the colorant and returns the underlying spectrum.
+    pub fn into_spectrum(self) -> Spectrum {
+        self.0
+    }
+
     /// Calculates the [Colorant] CIELAB values, using an illuminant and observer.
     ///
     /// The illuminant and observer are optional parameters.
@@ -270,7 +275,7 @@ impl Mul<&Colorant> for &Colorant {
     /// approx::assert_abs_diff_eq!(r,b);
     /// ```
     fn mul(self, rhs: &Colorant) -> Self::Output {
-        Colorant(self.0 * rhs.0) // use spectrum multiplication
+        Colorant(&self.0 * &rhs.0) // use spectrum multiplication
     }
 }
 
@@ -279,7 +284,7 @@ impl Mul<&Colorant> for &Colorant {
 /// The result is clamped to the valid colorant range of 0.0 to 1.0.
 impl AddAssign<&Self> for Colorant {
     fn add_assign(&mut self, rhs: &Self) {
-        self.0 += rhs.0;
+        self.0 += &rhs.0;
         self.0.clamp(0.0, 1.0);
     }
 }

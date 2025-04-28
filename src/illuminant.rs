@@ -198,6 +198,11 @@ impl Illuminant {
         }
     }
 
+    /// Consumes the illuminant and returns the underlying spectrum.
+    pub fn into_spectrum(self) -> Spectrum {
+        self.0
+    }
+
     /// Returns the XYZ tristimulus values for the illuminant.
     /// The values are calculated for the specified observer, or the default CIE 1931 observer if
     /// none is provided.
