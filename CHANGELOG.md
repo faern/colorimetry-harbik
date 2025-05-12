@@ -13,6 +13,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Fixed
+- Slightly relax constraints on x-y values in `XYZ::from_chromaticity`. This allows converting
+  the spectral locus positions of all included observers to chromaticity coordinates and back
+  to XYZ values again.
+
 ## [0.0.4] - 2025-05-06
 
 ### Added
